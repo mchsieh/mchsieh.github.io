@@ -74,17 +74,19 @@
 
     h2 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 48px 0 18px; }
 
-    /* research: text left with rail, sticky media right */
-    .research { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr); gap: 64px; align-items: start; }
-    .dirs { position: relative; min-width: 0; padding-left: 30px; }
-    .rail { position: absolute; left: 6px; top: 14px; bottom: 14px; width: 2px; background: var(--rail); border-radius: 1px; }
+    /* research: pinned scrollytelling. The tall .scrolly scrolls; .scrolly-view sticks for its whole height. */
+    .scrolly { position: relative; height: calc(var(--steps, 8) * 72vh + 100vh); margin-top: -8px; }
+    .scrolly-view { position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr); gap: 64px; align-items: center; }
+    .dirs { position: relative; min-width: 0; padding-left: 30px; height: 100%; display: flex; align-items: center; }
+    .rail { position: absolute; left: 6px; top: 50%; height: 220px; margin-top: -110px; width: 2px; background: var(--rail); border-radius: 1px; }
     .rail-fill { position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent); border-radius: 1px; transition: height 0.35s ease; }
-    .dir { position: relative; padding: 26px 0 30px; scroll-margin-top: 24px; }
-    .dir::before { content: ""; position: absolute; left: -29px; top: 36px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--rail); transition: border-color 0.25s, background 0.25s; }
-    .dir.is-active::before, .dir.is-done::before { border-color: var(--accent); }
-    .dir.is-active::before { background: var(--accent); }
-    .dir:first-child { padding-top: 4px; }
-    .dir:first-child::before { top: 14px; }
+    .rail-dots { position: absolute; left: -5px; top: 0; bottom: 0; }
+    .rail-dots i { position: absolute; left: 0; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: var(--bg); border: 2px solid var(--rail); box-sizing: border-box; transition: border-color 0.25s, background 0.25s; }
+    .rail-dots i.is-done, .rail-dots i.is-active { border-color: var(--accent); }
+    .rail-dots i.is-active { background: var(--accent); }
+    .dir { position: absolute; left: 30px; right: 0; top: 50%; transform: translate(0, -50%) translateY(26px); opacity: 0; transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1); pointer-events: none; }
+    .dir.is-active { opacity: 1; transform: translate(0, -50%); pointer-events: auto; transition-delay: 0.08s; }
+    .dir.is-leaving { transform: translate(0, -50%) translateY(-18px); }
     .dir .num { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; }
     .dir h3 { margin: 2px 0 10px; font-size: 1.4rem; font-weight: 600; line-height: 1.3; transition: color 0.25s; }
     .dir.is-active h3 { color: var(--accent); }
@@ -94,7 +96,7 @@
     .dir .next b { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
     .dir .more { font-size: 0.9rem; margin-top: 6px; }
 
-    .pane { position: sticky; top: 24px; min-width: 0; }
+    .pane { min-width: 0; }
     .stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 0 auto; max-width: 100%; transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .tabs { display: flex; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2); min-height: 54px; align-items: center; }
     .tabs::before { content: "View"; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
@@ -181,15 +183,19 @@
       header { flex-direction: column; gap: 18px; }
       header img { width: 96px; height: 96px; }
       h1 span { display: block; margin-left: 0; }
+      .scrolly { height: auto; margin-top: 0; }
+      .scrolly-view { position: static; height: auto; display: block; }
       .research { grid-template-columns: 1fr; gap: 0; }
       .pane { display: none; }
       .inline-media { display: block; }
-      .dirs { padding-left: 0; }
-      .rail, .dir::before { display: none; }
+      .dirs { padding-left: 0; height: auto; display: block; }
+      .rail { display: none; }
+      .dir { position: static; opacity: 1; transform: none; pointer-events: auto; padding: 26px 0 30px; border-top: 1px solid var(--line); }
+      .dir:first-child { border-top: 0; }
       .dir.is-active h3 { color: inherit; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .frame .media, .cap, .rail-fill, .dir h3, .dir::before { transition: none; }
+      .frame .media, .cap, .rail-fill, .dir, .dir h3, .rail-dots i { transition: none; }
       .tabs button:not(.is-on).pulse { animation: none; border-color: var(--accent); }
     }
   </style>
@@ -212,9 +218,10 @@
   </header>
 
   <h2 id="research">Research</h2>
-  <div class="research">
+  <div class="scrolly" id="scrolly">
+  <div class="research scrolly-view">
     <div class="dirs">
-      <div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+      <div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div><div class="rail-dots" id="railDots"></div></div>
 
       <section class="dir" id="d1" data-media="model slip" data-default="slip" data-intro="7">
         <div class="num">01</div>
@@ -417,6 +424,7 @@
       </div>
     </aside>
   </div>
+  </div>
 
   <h2 id="projects">Open projects</h2>
   <div class="repo">
@@ -445,7 +453,6 @@
 <script>
 (function () {
   var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
-  var introTimer = null;
   function pulseTabs() {
     Array.prototype.forEach.call(tabs.children, function (b) {
       b.classList.toggle("pulse", !b.classList.contains("is-on"));
@@ -510,54 +517,60 @@
     stage.style.width = w + "px";
     frame.style.height = Math.round(h) + "px";
   }
+  var scrolly = document.getElementById("scrolly");
+  var railDots = document.getElementById("railDots");
+  var steps = [];
+  dirs.forEach(function (d) { d.dataset.media.split(" ").forEach(function (k) { steps.push({ dir: d, key: k }); }); });
+  scrolly.style.setProperty("--steps", steps.length);
+  dirs.forEach(function (d, i) {
+    var dot = document.createElement("i"); dot.style.top = (dirs.length > 1 ? (i / (dirs.length - 1)) * 100 : 0) + "%"; railDots.appendChild(dot);
+  });
+  var dots = Array.prototype.slice.call(railDots.children);
+  var stepIndex = -1;
+  var manualKey = null;
+
   function activate(dir) {
     if (dir === current) return;
-    current = dir;
+    var prev = current; current = dir;
     var idx = dirs.indexOf(dir);
     dirs.forEach(function (d, i) {
       d.classList.toggle("is-active", i === idx);
-      d.classList.toggle("is-done", i < idx);
+      d.classList.toggle("is-leaving", d === prev && i < idx);
     });
+    dots.forEach(function (o, i) { o.classList.toggle("is-active", i === idx); o.classList.toggle("is-done", i < idx); });
+    railFill.style.height = (dirs.length > 1 ? (idx / (dirs.length - 1)) * 100 : 0) + "%";
     var keys = dir.dataset.media.split(" ");
     tabs.innerHTML = "";
     if (keys.length > 1) {
       keys.forEach(function (k) {
         var b = document.createElement("button");
         b.type = "button"; b.dataset.key = k; b.textContent = labels[k] || k;
-        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; show(k); });
+        b.addEventListener("click", function () { manualKey = k; show(k); });
         tabs.appendChild(b);
       });
     }
-    clearTimeout(introTimer); introTimer = null;
-    var def = dir.dataset.default || keys[0];
-    if (dir.dataset.intro && keys.length > 1 && keys[0] !== def) {
-      show(keys[0]);
-      introTimer = setTimeout(function () { introTimer = null; show(def); }, parseFloat(dir.dataset.intro) * 1000);
-    } else {
-      show(def);
-    }
-    updateRail();
   }
-  function updateRail() {
-    if (!current) return;
-    var railTop = document.querySelector(".rail").getBoundingClientRect().top;
-    var dot = current.getBoundingClientRect().top + (current === dirs[0] ? 20 : 42);
-    railFill.style.height = Math.max(0, dot - railTop) + "px";
-  }
+  function isPinned() { return window.innerWidth > 860; }
   function pick() {
-    var line = window.innerHeight * 0.4;
-    var atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
-    var lastTop = dirs[dirs.length - 1].getBoundingClientRect().top;
-    if (atBottom || lastTop <= line) { activate(dirs[dirs.length - 1]); return; }
-    var best = dirs[0], bestDist = Infinity;
-    dirs.forEach(function (d) {
-      var r = d.getBoundingClientRect();
-      if (r.top <= line && r.bottom >= line) { best = d; bestDist = -1; return; }
-      var dist = Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line));
-      if (bestDist !== -1 && dist < bestDist) { best = d; bestDist = dist; }
-    });
-    activate(best);
+    if (!isPinned()) {
+      if (stepIndex !== 0) { stepIndex = 0; activate(dirs[0]); show(steps[0].key); }
+      return;
+    }
+    var rect = scrolly.getBoundingClientRect();
+    var span = scrolly.offsetHeight - window.innerHeight;
+    var progress = span > 0 ? Math.min(1, Math.max(0, -rect.top / span)) : 0;
+    var i = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+    if (i === stepIndex) return;
+    stepIndex = i; manualKey = null;
+    activate(steps[i].dir);
+    show(steps[i].key);
   }
+  var scrollTimer = null, ticking = false;
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { pick(); ticking = false; }); }
+  }, { passive: true });
+  window.addEventListener("resize", function () { stepIndex = -1; pick(); sizeFrame(); });
+  pick();
 
   function toggle() {
     var v = activeVideo(); if (!v) return;
@@ -585,13 +598,6 @@
   });
   document.addEventListener("fullscreenchange", function () { if (!document.fullscreenElement) { sizeFrame(); } });
 
-  var scrollTimer = null;
-  window.addEventListener("scroll", function () {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(pick, 90);
-  }, { passive: true });
-  window.addEventListener("resize", function () { pick(); updateRail(); sizeFrame(); });
-  pick();
 })();
 </script>
 </body>
