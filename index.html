@@ -102,7 +102,7 @@
     .tabs button { font: inherit; font-size: 0.92rem; font-weight: 500; padding: 7px 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--soft); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
     .tabs button:hover { border-color: var(--accent); color: var(--accent); }
     .tabs button.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .frame { position: relative; aspect-ratio: 16 / 10; background: var(--frame); }
+    .frame { position: relative; height: 480px; background: var(--frame); transition: height 0.35s ease; }
     .frame .media { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
     .frame .media.is-on { opacity: 1; pointer-events: auto; }
     .frame video, .frame img, .frame svg { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -318,14 +318,14 @@
       <div class="stage">
         <div class="tabs" id="tabs"></div>
         <div class="frame" id="frame">
-          <div class="media" data-key="slip"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video></div>
-          <div class="media" data-key="model"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-velocity-model.png"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video></div>
-          <div class="media" data-key="wave"><video muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video></div>
-          <div class="media" data-key="velocity"><video muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video></div>
-          <div class="media light" data-key="das"><img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS"></div>
-          <div class="media light" data-key="dashboard"><img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities"></div>
-          <div class="media light" data-key="aegean"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
-          <div class="media light" data-key="induced">
+          <div class="media" data-key="slip" data-ar="0.8926"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video></div>
+          <div class="media" data-key="model" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-velocity-model.png"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video></div>
+          <div class="media" data-key="wave" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video></div>
+          <div class="media" data-key="velocity" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video></div>
+          <div class="media light" data-key="das" data-ar="2.76"><img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS"></div>
+          <div class="media light" data-key="dashboard" data-ar="1.25"><img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities"></div>
+          <div class="media light" data-key="aegean" data-ar="1.659"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
+          <div class="media light" data-key="induced" data-ar="1.6">
             <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: micro-earthquakes near an injection site are split by ETAS into background and clustered seismicity; a rise in the background rate after injection starts is the alert">
 <defs>
   <marker id="ARRB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
@@ -455,8 +455,16 @@
       if (v) { if (on) { v.play().then(function () { setIcon(true); }).catch(function () { setIcon(false); }); } else { v.pause(); } }
     });
     caps.forEach(function (c) { c.classList.toggle("is-on", c.dataset.key === key); });
+    sizeFrame();
     Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle("is-on", b.dataset.key === key); });
     ctl.style.display = activeVideo() ? "" : "none";
+  }
+  function sizeFrame() {
+    var m = frame.querySelector(".media.is-on"); if (!m) return;
+    var ar = parseFloat(m.dataset.ar) || 1.6;
+    var w = frame.getBoundingClientRect().width;
+    var h = Math.min(w / ar, window.innerHeight * 0.74);
+    frame.style.height = Math.round(h) + "px";
   }
   function activate(dir) {
     if (dir === current) return;
@@ -514,7 +522,7 @@
   window.addEventListener("scroll", function () {
     if (!ticking) { ticking = true; requestAnimationFrame(function () { pick(); ticking = false; }); }
   }, { passive: true });
-  window.addEventListener("resize", function () { pick(); updateRail(); });
+  window.addEventListener("resize", function () { pick(); updateRail(); sizeFrame(); });
   pick();
 })();
 </script>
