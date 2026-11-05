@@ -446,10 +446,9 @@
 (function () {
   var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
   var introTimer = null;
-  var seen = {};
   function pulseTabs() {
     Array.prototype.forEach.call(tabs.children, function (b) {
-      b.classList.toggle("pulse", !b.classList.contains("is-on") && !seen[b.dataset.key]);
+      b.classList.toggle("pulse", !b.classList.contains("is-on"));
     });
   }
   var tabs = document.getElementById("tabs");
@@ -525,7 +524,7 @@
       keys.forEach(function (k) {
         var b = document.createElement("button");
         b.type = "button"; b.dataset.key = k; b.textContent = labels[k] || k;
-        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; seen[k] = true; show(k); });
+        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; show(k); });
         tabs.appendChild(b);
       });
     }
