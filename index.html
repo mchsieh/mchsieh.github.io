@@ -102,6 +102,7 @@
     .tabs button { font: inherit; font-size: 0.92rem; font-weight: 500; padding: 7px 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--soft); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
     .tabs button:hover { border-color: var(--accent); color: var(--accent); }
     .tabs button.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .tabs button[data-key="slip"], .tabs button[data-key="wave"] { font-weight: 600; }
     .frame { position: relative; height: 480px; background: var(--frame); transition: height 0.35s ease; }
     .frame .media { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
     .frame .media.is-on { opacity: 1; pointer-events: auto; }
@@ -201,7 +202,7 @@
     <div class="dirs">
       <div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
 
-      <section class="dir" id="d1" data-media="slip model">
+      <section class="dir" id="d1" data-media="model slip" data-default="slip" data-intro="7">
         <div class="num">01</div>
         <h3>Finite-fault inversion with 3-D Green's functions</h3>
         <div class="inline-media">
@@ -213,7 +214,7 @@
         <p class="more"><a href="https://mchsieh.github.io/FFF3D">FFF3D walkthrough →</a></p>
       </section>
 
-      <section class="dir" id="d2" data-media="wave velocity">
+      <section class="dir" id="d2" data-media="velocity wave" data-default="wave" data-intro="7">
         <div class="num">02</div>
         <h3>3-D ground-motion simulation and nonergodic ground-motion models</h3>
         <div class="inline-media">
@@ -324,7 +325,7 @@
           <div class="media" data-key="velocity" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video></div>
           <div class="media light" data-key="das" data-ar="2.76"><img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS"></div>
           <div class="media light" data-key="dashboard" data-ar="1.25"><img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities"></div>
-          <div class="media light" data-key="aegean" data-ar="1.659"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
+          <div class="media light" data-key="aegean" data-ar="1.57"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
           <div class="media light" data-key="induced" data-ar="1.6">
             <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: micro-earthquakes near an injection site are split by ETAS into background and clustered seismicity; a rise in the background rate after injection starts is the alert">
 <defs>
@@ -388,13 +389,13 @@
           </div>
         </div>
         <div class="captions" id="captions">
-          <div class="cap" data-key="slip"><strong>Slip inverted with 3-D Green's functions</strong>Reference model (top), inverted model (middle), moment-rate functions (bottom), in a synthetic Taiwan test.</div>
-          <div class="cap" data-key="model"><strong>The setting of the test</strong>Lee et al. (2025) velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations.</div>
+          <div class="cap" data-key="slip"><strong>Inversion result: slip recovered at correlation 0.96</strong>Reference model (top) and the model inverted with 3-D strain Green's tensors (middle); the moment-rate functions (bottom) match in shape and duration.</div>
+          <div class="cap" data-key="model"><strong>Setting of the synthetic test</strong>Lee et al. (2025) velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations. The inversion result follows.</div>
           <div class="cap" data-key="wave"><strong>An M 8 Ryukyu scenario in two 3-D velocity models</strong>Sections through the hypocenter, then the free surface, ending with peak ground velocity. Same source in KC3D and HH3D.</div>
           <div class="cap" data-key="velocity"><strong>The two velocity models, slice by slice</strong>V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</div>
           <div class="cap" data-key="das"><strong>Strain rate from the modified code</strong>Trial source locations in the borehole and observed vs synthetic strain rate for implosive and explosive sources (Lin et al., 2026).</div>
           <div class="cap" data-key="dashboard"><strong>ETAS-GMprob</strong>Hourly probabilities of reaching each intensity level at seven cities. <a href="https://mchsieh.github.io/etas-gmprob-dashboard/">Open the live page</a>.</div>
-          <div class="cap" data-key="aegean"><strong>The ETAS system on the Aegean</strong>Catalog (left) and ETAS conditional intensity (right): the test area for the VLF precursor study with CNR-IAC Bari.</div>
+          <div class="cap" data-key="aegean"><strong>The ETAS system on the Aegean</strong>Catalog (left) and ETAS conditional intensity (right) on the same map extent: the test area for the VLF precursor study with CNR-IAC Bari.</div>
           <div class="cap" data-key="induced"><strong>Monitoring by declustering</strong>ETAS splits a site catalog into background and clustered seismicity; a rise in the background rate after an operation is the alert.</div>
         </div>
       </div>
@@ -427,7 +428,8 @@
 
 <script>
 (function () {
-  var labels = { slip: "Slip evolution", model: "Velocity model", wave: "Wavefield", velocity: "Velocity models", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
+  var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
+  var introTimer = null;
   var tabs = document.getElementById("tabs");
   var frame = document.getElementById("frame");
   var ctl = document.getElementById("ctl");
@@ -484,11 +486,18 @@
       keys.forEach(function (k) {
         var b = document.createElement("button");
         b.type = "button"; b.dataset.key = k; b.textContent = labels[k] || k;
-        b.addEventListener("click", function () { show(k); });
+        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; show(k); });
         tabs.appendChild(b);
       });
     }
-    show(keys[0]);
+    clearTimeout(introTimer); introTimer = null;
+    var def = dir.dataset.default || keys[0];
+    if (dir.dataset.intro && keys.length > 1 && keys[0] !== def) {
+      show(keys[0]);
+      introTimer = setTimeout(function () { introTimer = null; show(def); }, parseFloat(dir.dataset.intro) * 1000);
+    } else {
+      show(def);
+    }
     updateRail();
   }
   function updateRail() {
