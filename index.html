@@ -22,6 +22,10 @@
       --line-strong: #cbd5e1;
       --frame: #0b0f14;
       --rail: #d6dce4;
+      --rock1: #f1ede4;
+      --rock2: #e4ddcd;
+      --rock3: #d9d4ca;
+      --alert: #d97706;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -37,6 +41,10 @@
         --line-strong: #3a4656;
         --frame: #000000;
         --rail: #2f3b4a;
+        --rock1: #232c37;
+        --rock2: #2d3744;
+        --rock3: #1d252f;
+        --alert: #f59e0b;
       }
     }
     * { box-sizing: border-box; }
@@ -114,16 +122,29 @@
 
     /* schematic */
     .schem { color: var(--fg); }
-    .schem .ln { stroke: currentColor; fill: none; stroke-width: 1.5; }
+    .schem .ln { stroke: var(--fg); fill: none; stroke-width: 1.4; stroke-linecap: round; }
     .schem .soft { stroke: var(--line-strong); }
-    .schem .ground { fill: var(--surface-2); }
-    .schem .acc { fill: var(--accent); }
-    .schem .accl { stroke: var(--accent); fill: none; stroke-width: 2; }
+    .schem .sky { fill: var(--surface); }
+    .schem .rock1 { fill: var(--rock1); }
+    .schem .rock2 { fill: var(--rock2); }
+    .schem .rock3 { fill: var(--rock3); }
+    .schem .fault { stroke: var(--fg); fill: none; stroke-width: 1.6; stroke-dasharray: 6 4; opacity: 0.55; }
+    .schem .plume { fill: var(--accent); opacity: 0.16; }
+    .schem .well { fill: var(--fg); opacity: 0.8; }
+    .schem .bg circle, .schem .bgdot { fill: var(--muted); opacity: 0.7; }
+    .schem .ind circle, .schem .inddot { fill: var(--accent); stroke: var(--surface); stroke-width: 0.8; }
     .schem .mut { fill: var(--muted); }
+    .schem .panel { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1; }
+    .schem .curve { fill: none; stroke-width: 2; stroke-linejoin: round; }
+    .schem .bgl { stroke: var(--muted); }
+    .schem .indl { stroke: var(--accent); }
+    .schem .alert { fill: none; stroke: var(--alert); stroke-width: 2.6; }
     .schem text { font-family: inherit; font-size: 13px; fill: var(--soft); }
     .schem text.k { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
     .schem text.t { fill: var(--fg); font-weight: 600; }
-
+    .schem text.s { font-size: 11.5px; }
+    .schem text.acc { fill: var(--accent); }
+    .schem text.alert-t { fill: var(--alert); font-weight: 600; }
     /* repos */
     .repo { display: grid; grid-template-columns: 1fr auto; gap: 8px 18px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
     .repo:last-child { border-bottom: 1px solid var(--line); }
@@ -227,35 +248,61 @@
         <div class="num">05</div>
         <h3>Micro-seismic monitoring at CCUS and other sites</h3>
         <div class="inline-media">
-          <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: a site catalog is split by ETAS into background and clustered seismicity; a rise in the background rate is the alert">
-            <defs><marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><g>
-                  <rect class="ground" x="30" y="150" width="330" height="300" rx="6"/>
-                  <path class="ln soft" d="M30 150 H360"/>
-                  <path class="ln" d="M120 120 V150 M110 120 H130"/>
-                  <rect class="mut" x="114" y="150" width="12" height="150" rx="2" opacity="0.9"/>
-                  <path class="ln soft" d="M30 300 Q120 280 200 300 T360 300" stroke-dasharray="4 4"/>
-                  <text x="60" y="110" class="k">Injection well · reservoir · geothermal</text>
-                  <g class="acc" opacity="0.85">
-                    <circle cx="150" cy="320" r="4"/><circle cx="165" cy="335" r="3"/><circle cx="135" cy="345" r="3.5"/><circle cx="172" cy="310" r="2.5"/><circle cx="142" cy="300" r="3"/><circle cx="188" cy="348" r="2.5"/><circle cx="128" cy="325" r="2.5"/><circle cx="160" cy="362" r="3"/>
-                  </g>
-                  <g class="mut" opacity="0.6">
-                    <circle cx="60" cy="400" r="2.5"/><circle cx="300" cy="380" r="3"/><circle cx="250" cy="420" r="2.5"/><circle cx="90" cy="250" r="2.5"/><circle cx="330" cy="250" r="2.5"/><circle cx="210" cy="200" r="2.5"/><circle cx="280" cy="330" r="2.5"/><circle cx="70" cy="340" r="2.5"/>
-                  </g>
-                  <text x="30" y="480" class="k">Site catalog</text>
-                  <path class="ln" d="M380 300 H430" marker-end="url(#arrA)"/>
-                  <text x="378" y="285" class="t">ETAS</text>
-                  <text x="378" y="330" class="k" style="font-size:10px">declustering</text>
-                  <rect class="ground" x="450" y="150" width="320" height="130" rx="6"/>
-                  <text x="462" y="172" class="k">Background rate</text>
-                  <path class="accl" d="M462 250 H560 Q600 250 620 240 T700 200 T760 190"/>
-                  <path class="ln soft" d="M560 160 V270" stroke-dasharray="3 3"/>
-                  <text x="568" y="266" class="k" style="font-size:10px">operation starts</text>
-                  <rect class="ground" x="450" y="310" width="320" height="130" rx="6"/>
-                  <text x="462" y="332" class="k">Clustered rate</text>
-                  <path class="ln" d="M462 420 H520 L530 365 L540 420 H600 L606 395 L612 420 H690 L700 350 L706 420 H760"/>
-                  <text x="450" y="480" class="k">Alert: background rate rises after the operation</text>
-                </g>
-          </svg>
+          <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: micro-earthquakes near an injection site are split by ETAS into background and clustered seismicity; a rise in the background rate after injection starts is the alert">
+<defs>
+  <marker id="ARRA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
+  <clipPath id="CLIPA"><rect x="40" y="60" width="430" height="400" rx="8"/></clipPath>
+  <pattern id="DOTSA" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="0.9" class="mut" opacity="0.6"/></pattern>
+</defs>
+<g clip-path="url(#CLIPA)">
+  <rect x="40" y="60" width="430" height="400" class="sky"/>
+  <path class="rock1" d="M40 150 C120 138 180 160 260 146 S400 130 470 142 V260 H40 Z"/>
+  <path class="rock2" d="M40 260 H470 V318 H40 Z"/>
+  <rect x="40" y="260" width="430" height="58" fill="url(#DOTSA)"/>
+  <path class="rock3" d="M40 318 H470 V460 H40 Z"/>
+  <path class="ln soft" d="M40 150 C120 138 180 160 260 146 S400 130 470 142"/>
+  <path class="ln soft" d="M40 260 H470 M40 318 H470"/>
+  <path class="fault" d="M330 460 L405 318 L440 262"/>
+  <ellipse cx="236" cy="292" rx="78" ry="22" class="plume"/>
+  <path class="ln" d="M236 150 V300"/>
+  <rect x="233" y="150" width="6" height="150" class="well"/>
+  <path class="ln" d="M224 150 H248 M236 150 V128 M226 128 H246 M236 128 V118 M230 118 H242"/>
+  <path class="ln" d="M226 270 H246 M226 282 H246 M226 294 H246" stroke-dasharray="2 3"/>
+  <g class="bg"><circle cx="80" cy="200" r="2.6"/><circle cx="140" cy="240" r="2.2"/><circle cx="400" cy="200" r="2.6"/><circle cx="455" cy="230" r="2.2"/><circle cx="130" cy="372" r="2.6"/><circle cx="170" cy="420" r="2.2"/><circle cx="300" cy="400" r="2.6"/><circle cx="420" cy="430" r="2.2"/><circle cx="70" cy="300" r="2.2"/><circle cx="380" cy="365" r="2.6"/><circle cx="250" cy="440" r="2.2"/><circle cx="200" cy="190" r="2.2"/></g>
+  <g class="ind"><circle cx="258" cy="296" r="4"/><circle cx="214" cy="300" r="3.2"/><circle cx="272" cy="286" r="2.8"/><circle cx="200" cy="286" r="2.6"/><circle cx="243" cy="310" r="3"/><circle cx="286" cy="304" r="2.6"/><circle cx="226" cy="278" r="2.4"/><circle cx="300" cy="294" r="2.4"/><circle cx="252" cy="326" r="3"/><circle cx="262" cy="342" r="2.6"/><circle cx="396" cy="330" r="3.4"/><circle cx="384" cy="350" r="2.8"/><circle cx="408" cy="314" r="2.6"/><circle cx="372" cy="372" r="2.6"/><circle cx="418" cy="296" r="2.4"/><circle cx="360" cy="392" r="2.4"/></g>
+</g>
+<rect x="40" y="60" width="430" height="400" rx="8" class="ln soft"/>
+<text x="56" y="84" class="t">Site cross-section</text>
+<text x="56" y="102" class="k">Injection well · reservoir · geothermal field</text>
+<text x="56" y="243" class="s">caprock</text>
+<text x="56" y="301" class="s">reservoir</text>
+<text x="56" y="340" class="s">basement</text>
+<text x="300" y="285" class="s acc">CO₂ plume</text>
+<text x="412" y="440" class="s">fault</text>
+<g transform="translate(56,440)"><circle cx="5" cy="-4" r="2.6" class="bgdot"/><text x="14" y="0" class="s">background</text><circle cx="110" cy="-4" r="3.2" class="inddot"/><text x="119" y="0" class="s">induced</text></g>
+
+<path class="ln" d="M482 262 H520" marker-end="url(#ARRA)"/>
+<text x="500" y="250" class="k" text-anchor="middle">ETAS</text>
+<text x="500" y="284" class="s" text-anchor="middle">declustering</text>
+
+<rect x="530" y="60" width="240" height="190" rx="8" class="panel"/>
+<text x="546" y="84" class="t">Background rate</text>
+<path class="ln soft" d="M560 220 H752 M560 220 V100"/>
+<path class="ln soft" d="M640 100 V220" stroke-dasharray="3 3"/>
+<text x="634" y="112" class="s" text-anchor="end">injection starts</text>
+<path class="curve bgl" d="M560 198 C590 196 620 200 640 198 S672 180 690 150 S735 118 752 112"/>
+<path class="alert" d="M690 150 C700 130 720 120 752 112"/>
+<text x="560" y="236" class="s">time</text>
+
+<rect x="530" y="270" width="240" height="190" rx="8" class="panel"/>
+<text x="546" y="294" class="t">Clustered rate</text>
+<path class="ln soft" d="M560 430 H752 M560 430 V310"/>
+<path class="ln soft" d="M640 310 V430" stroke-dasharray="3 3"/>
+<path class="curve indl" d="M560 426 H596 L600 372 L606 426 H660 L664 396 L669 426 H700 L706 340 L713 426 H752"/>
+<text x="560" y="446" class="s">time</text>
+
+<text x="530" y="484" class="s alert-t">Alert: background rate rises after injection starts</text>
+</svg>
           <div class="icap">ETAS splits a site catalog into background and clustered seismicity; a change in the background rate is the alert.</div>
         </div>
         <p>ETAS and stochastic declustering separate induced from background seismicity in a local catalog, so that a change in the background rate or a migration of events toward an injection point or a reservoir stands out from ordinary aftershock clustering.</p>
@@ -276,35 +323,61 @@
           <div class="media light" data-key="dashboard"><img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities"></div>
           <div class="media light" data-key="aegean"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
           <div class="media light" data-key="induced">
-            <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: a site catalog is split by ETAS into background and clustered seismicity; a rise in the background rate is the alert">
-              <defs><marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><g>
-                  <rect class="ground" x="30" y="150" width="330" height="300" rx="6"/>
-                  <path class="ln soft" d="M30 150 H360"/>
-                  <path class="ln" d="M120 120 V150 M110 120 H130"/>
-                  <rect class="mut" x="114" y="150" width="12" height="150" rx="2" opacity="0.9"/>
-                  <path class="ln soft" d="M30 300 Q120 280 200 300 T360 300" stroke-dasharray="4 4"/>
-                  <text x="60" y="110" class="k">Injection well · reservoir · geothermal</text>
-                  <g class="acc" opacity="0.85">
-                    <circle cx="150" cy="320" r="4"/><circle cx="165" cy="335" r="3"/><circle cx="135" cy="345" r="3.5"/><circle cx="172" cy="310" r="2.5"/><circle cx="142" cy="300" r="3"/><circle cx="188" cy="348" r="2.5"/><circle cx="128" cy="325" r="2.5"/><circle cx="160" cy="362" r="3"/>
-                  </g>
-                  <g class="mut" opacity="0.6">
-                    <circle cx="60" cy="400" r="2.5"/><circle cx="300" cy="380" r="3"/><circle cx="250" cy="420" r="2.5"/><circle cx="90" cy="250" r="2.5"/><circle cx="330" cy="250" r="2.5"/><circle cx="210" cy="200" r="2.5"/><circle cx="280" cy="330" r="2.5"/><circle cx="70" cy="340" r="2.5"/>
-                  </g>
-                  <text x="30" y="480" class="k">Site catalog</text>
-                  <path class="ln" d="M380 300 H430" marker-end="url(#arrB)"/>
-                  <text x="378" y="285" class="t">ETAS</text>
-                  <text x="378" y="330" class="k" style="font-size:10px">declustering</text>
-                  <rect class="ground" x="450" y="150" width="320" height="130" rx="6"/>
-                  <text x="462" y="172" class="k">Background rate</text>
-                  <path class="accl" d="M462 250 H560 Q600 250 620 240 T700 200 T760 190"/>
-                  <path class="ln soft" d="M560 160 V270" stroke-dasharray="3 3"/>
-                  <text x="568" y="266" class="k" style="font-size:10px">operation starts</text>
-                  <rect class="ground" x="450" y="310" width="320" height="130" rx="6"/>
-                  <text x="462" y="332" class="k">Clustered rate</text>
-                  <path class="ln" d="M462 420 H520 L530 365 L540 420 H600 L606 395 L612 420 H690 L700 350 L706 420 H760"/>
-                  <text x="450" y="480" class="k">Alert: background rate rises after the operation</text>
-                </g>
-            </svg>
+            <svg class="schem" viewBox="0 0 800 500" role="img" aria-label="Schematic: micro-earthquakes near an injection site are split by ETAS into background and clustered seismicity; a rise in the background rate after injection starts is the alert">
+<defs>
+  <marker id="ARRB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
+  <clipPath id="CLIPB"><rect x="40" y="60" width="430" height="400" rx="8"/></clipPath>
+  <pattern id="DOTSB" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="0.9" class="mut" opacity="0.6"/></pattern>
+</defs>
+<g clip-path="url(#CLIPB)">
+  <rect x="40" y="60" width="430" height="400" class="sky"/>
+  <path class="rock1" d="M40 150 C120 138 180 160 260 146 S400 130 470 142 V260 H40 Z"/>
+  <path class="rock2" d="M40 260 H470 V318 H40 Z"/>
+  <rect x="40" y="260" width="430" height="58" fill="url(#DOTSB)"/>
+  <path class="rock3" d="M40 318 H470 V460 H40 Z"/>
+  <path class="ln soft" d="M40 150 C120 138 180 160 260 146 S400 130 470 142"/>
+  <path class="ln soft" d="M40 260 H470 M40 318 H470"/>
+  <path class="fault" d="M330 460 L405 318 L440 262"/>
+  <ellipse cx="236" cy="292" rx="78" ry="22" class="plume"/>
+  <path class="ln" d="M236 150 V300"/>
+  <rect x="233" y="150" width="6" height="150" class="well"/>
+  <path class="ln" d="M224 150 H248 M236 150 V128 M226 128 H246 M236 128 V118 M230 118 H242"/>
+  <path class="ln" d="M226 270 H246 M226 282 H246 M226 294 H246" stroke-dasharray="2 3"/>
+  <g class="bg"><circle cx="80" cy="200" r="2.6"/><circle cx="140" cy="240" r="2.2"/><circle cx="400" cy="200" r="2.6"/><circle cx="455" cy="230" r="2.2"/><circle cx="130" cy="372" r="2.6"/><circle cx="170" cy="420" r="2.2"/><circle cx="300" cy="400" r="2.6"/><circle cx="420" cy="430" r="2.2"/><circle cx="70" cy="300" r="2.2"/><circle cx="380" cy="365" r="2.6"/><circle cx="250" cy="440" r="2.2"/><circle cx="200" cy="190" r="2.2"/></g>
+  <g class="ind"><circle cx="258" cy="296" r="4"/><circle cx="214" cy="300" r="3.2"/><circle cx="272" cy="286" r="2.8"/><circle cx="200" cy="286" r="2.6"/><circle cx="243" cy="310" r="3"/><circle cx="286" cy="304" r="2.6"/><circle cx="226" cy="278" r="2.4"/><circle cx="300" cy="294" r="2.4"/><circle cx="252" cy="326" r="3"/><circle cx="262" cy="342" r="2.6"/><circle cx="396" cy="330" r="3.4"/><circle cx="384" cy="350" r="2.8"/><circle cx="408" cy="314" r="2.6"/><circle cx="372" cy="372" r="2.6"/><circle cx="418" cy="296" r="2.4"/><circle cx="360" cy="392" r="2.4"/></g>
+</g>
+<rect x="40" y="60" width="430" height="400" rx="8" class="ln soft"/>
+<text x="56" y="84" class="t">Site cross-section</text>
+<text x="56" y="102" class="k">Injection well · reservoir · geothermal field</text>
+<text x="56" y="243" class="s">caprock</text>
+<text x="56" y="301" class="s">reservoir</text>
+<text x="56" y="340" class="s">basement</text>
+<text x="300" y="285" class="s acc">CO₂ plume</text>
+<text x="412" y="440" class="s">fault</text>
+<g transform="translate(56,440)"><circle cx="5" cy="-4" r="2.6" class="bgdot"/><text x="14" y="0" class="s">background</text><circle cx="110" cy="-4" r="3.2" class="inddot"/><text x="119" y="0" class="s">induced</text></g>
+
+<path class="ln" d="M482 262 H520" marker-end="url(#ARRB)"/>
+<text x="500" y="250" class="k" text-anchor="middle">ETAS</text>
+<text x="500" y="284" class="s" text-anchor="middle">declustering</text>
+
+<rect x="530" y="60" width="240" height="190" rx="8" class="panel"/>
+<text x="546" y="84" class="t">Background rate</text>
+<path class="ln soft" d="M560 220 H752 M560 220 V100"/>
+<path class="ln soft" d="M640 100 V220" stroke-dasharray="3 3"/>
+<text x="634" y="112" class="s" text-anchor="end">injection starts</text>
+<path class="curve bgl" d="M560 198 C590 196 620 200 640 198 S672 180 690 150 S735 118 752 112"/>
+<path class="alert" d="M690 150 C700 130 720 120 752 112"/>
+<text x="560" y="236" class="s">time</text>
+
+<rect x="530" y="270" width="240" height="190" rx="8" class="panel"/>
+<text x="546" y="294" class="t">Clustered rate</text>
+<path class="ln soft" d="M560 430 H752 M560 430 V310"/>
+<path class="ln soft" d="M640 310 V430" stroke-dasharray="3 3"/>
+<path class="curve indl" d="M560 426 H596 L600 372 L606 426 H660 L664 396 L669 426 H700 L706 340 L713 426 H752"/>
+<text x="560" y="446" class="s">time</text>
+
+<text x="530" y="484" class="s alert-t">Alert: background rate rises after injection starts</text>
+</svg>
           </div>
           <div class="ctl" id="ctl">
             <button type="button" id="playBtn" aria-label="Play or pause"><svg viewBox="0 0 16 16" id="playIcon"><path d="M4 2.5v11l9-5.5z"/></svg></button>
