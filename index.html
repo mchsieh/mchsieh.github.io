@@ -334,6 +334,18 @@
         <p class="next"><b>Outlook</b><span>CO<sub>2</sub> storage sites, reservoirs, injection tests and geothermal fields in Taiwan, each a controlled experiment on how fluid pressure triggers earthquakes.</span></p>
       </section>
 
+      <section class="dir" id="d6" data-media="fff3d dashboard">
+        <div class="num">06</div>
+        <h3>Open projects</h3>
+        <div class="inline-media">
+          <img src="assets/fig-fff3d-page.png" alt="The FFF3D walkthrough page" loading="lazy">
+          <div class="icap">FFF3D: a ten-step walkthrough of a synthetic finite-fault inversion in a Taiwan 3-D velocity model.</div>
+        </div>
+        <p>Two pieces of this work are public, so that others can run them, check them and build on them.</p>
+        <p><a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">FFF3D</a> is a step-by-step walkthrough of a synthetic finite-fault inversion with 3-D strain Green's tensors in the Lee et al. (2025) Taiwan velocity model: ten steps, each with its inputs, logs and a pass/skip check against the expected output, ending in a result report. The package is released under CC BY 4.0; the inversion code itself is available on request. <a href="https://github.com/mchsieh/FFF3D" target="_blank" rel="noopener">Repository →</a></p>
+        <p><a href="https://mchsieh.github.io/etas-gmprob-dashboard/" target="_blank" rel="noopener">ETAS-GMprob</a> is a live page that updates every hour from the Central Weather Administration catalog: an ETAS model is refitted, one thousand synthetic catalogs are drawn for the next 24, 72 and 168 hours, and a Taiwan-calibrated ground-motion model turns them into the probability of reaching each intensity level at seven cities. It is a research product, not an official warning. <a href="https://github.com/mchsieh/etas-gmprob-dashboard" target="_blank" rel="noopener">Repository →</a></p>
+      </section>
+
     </div>
 
     <aside class="pane" aria-label="Figures and animations for the research directions">
@@ -345,6 +357,7 @@
           <div class="media" data-key="wave" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video></div>
           <div class="media" data-key="velocity" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video></div>
           <div class="media light" data-key="das" data-ar="2.76"><img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS"></div>
+          <div class="media light" data-key="fff3d" data-ar="1.25"><img src="assets/fig-fff3d-page.png" alt="The FFF3D walkthrough page"></div>
           <div class="media light" data-key="dashboard" data-ar="1.25"><img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities"></div>
           <div class="media light" data-key="aegean" data-ar="1.57"><img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity"></div>
           <div class="media light" data-key="induced" data-ar="1.6">
@@ -417,6 +430,7 @@
           <div class="cap" data-key="wave"><strong>An M 8 Ryukyu scenario in two 3-D velocity models</strong>Sections through the hypocenter, then the free surface, ending with peak ground velocity. Same source in KC3D and HH3D.</div>
           <div class="cap" data-key="velocity"><strong>The two velocity models, slice by slice</strong>V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</div>
           <div class="cap" data-key="das"><strong>Strain rate from the modified code</strong>Trial source locations in the borehole and observed vs synthetic strain rate for implosive and explosive sources (Lin et al., 2026).</div>
+          <div class="cap" data-key="fff3d"><strong>FFF3D walkthrough</strong>Ten steps from velocity model to inverted slip, with logs and checks at every step, so that a student can run the whole chain and compare each result with the expected output. <a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">Open the walkthrough</a>.</div>
           <div class="cap" data-key="dashboard"><strong>ETAS-GMprob</strong>Hourly probabilities of reaching each intensity level at seven cities. <a href="https://mchsieh.github.io/etas-gmprob-dashboard/" target="_blank" rel="noopener">Open the live page</a>.</div>
           <div class="cap" data-key="aegean"><strong>The ETAS system on the Aegean</strong>Catalog (left) and ETAS conditional intensity (right) on the same map extent: the test area for the VLF precursor study with CNR-IAC Bari.</div>
           <div class="cap" data-key="induced"><strong>Monitoring by declustering</strong>ETAS splits a site catalog into background and clustered seismicity; a rise in the background rate after an operation is the alert.</div>
@@ -424,18 +438,6 @@
       </div>
     </aside>
   </div>
-  </div>
-
-  <h2 id="projects">Open projects</h2>
-  <div class="repo">
-    <h3><a href="https://mchsieh.github.io/etas-gmprob-dashboard/" target="_blank" rel="noopener">ETAS-GMprob</a></h3>
-    <a class="go" href="https://github.com/mchsieh/etas-gmprob-dashboard" target="_blank" rel="noopener">repository →</a>
-    <p>Hourly ground-shaking probability assessment for Taiwan: an ETAS model fitted to the Central Weather Administration catalog, synthetic catalogs, and a ground-motion model give the probability of reaching each intensity level at seven cities over 24, 72 and 168 hours.</p>
-  </div>
-  <div class="repo">
-    <h3><a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">FFF3D</a></h3>
-    <a class="go" href="https://github.com/mchsieh/FFF3D" target="_blank" rel="noopener">repository →</a>
-    <p>A step-by-step walkthrough of a synthetic finite-fault inversion with 3-D strain Green's tensors in a Taiwan velocity model, with inputs, logs and the result report, so that each step can be checked against the expected output.</p>
   </div>
 
   <h2 id="publications">Selected publications</h2>
@@ -452,7 +454,7 @@
 
 <script>
 (function () {
-  var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
+  var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "ETAS-GMprob", aegean: "Aegean", induced: "Declustering", fff3d: "FFF3D" };
   function pulseTabs() {
     Array.prototype.forEach.call(tabs.children, function (b) {
       b.classList.toggle("pulse", !b.classList.contains("is-on"));
