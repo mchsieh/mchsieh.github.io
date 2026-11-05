@@ -45,35 +45,51 @@
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { color: var(--accent-dark); text-decoration: underline; }
-    main { max-width: 960px; margin: 0 auto; padding: 48px 16px 72px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 48px 20px 72px; }
 
     /* header */
     header { display: flex; gap: 28px; align-items: flex-start; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
-    header img { width: 128px; height: 128px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); flex: none; }
+    header img { width: 120px; height: 120px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); flex: none; }
     h1 { font-size: 2rem; font-weight: 600; margin: 0; letter-spacing: 0.005em; line-height: 1.2; }
     h1 span { font-weight: 400; color: var(--muted); font-size: 1.2rem; margin-left: 0.5em; }
     .role { margin: 6px 0 0; color: var(--soft); }
-    .tagline { margin: 14px 0 0; max-width: 60ch; }
+    .tagline { margin: 14px 0 0; max-width: 62ch; }
     .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; }
     .links a { display: inline-block; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.9rem; background: var(--surface); }
     .links a:hover { border-color: var(--accent); text-decoration: none; }
 
     h2 { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 44px 0 16px; }
-    .intro { color: var(--soft); margin: 0 0 18px; max-width: 70ch; }
 
-    /* animations */
-    .anim-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-    figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-    figure video { display: block; width: 100%; height: auto; background: #000; aspect-ratio: 16 / 9; }
-    figure.portrait video { aspect-ratio: 964 / 1080; }
-    figcaption { padding: 10px 14px 12px; font-size: 0.88rem; color: var(--soft); line-height: 1.5; }
-    figcaption strong { color: var(--fg); font-weight: 600; }
+    /* research: text left, sticky media right */
+    .research { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 40px; align-items: start; }
+    .dirs { min-width: 0; }
+    .dir { padding: 28px 0; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+    .dir:first-child { border-top: 0; padding-top: 4px; }
+    .dir .num { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.08em; }
+    .dir h3 { margin: 4px 0 8px; font-size: 1.18rem; font-weight: 600; line-height: 1.3; }
+    .dir p { margin: 0 0 10px; color: var(--soft); }
+    .dir p:last-child { margin-bottom: 0; }
+    .dir .more { font-size: 0.92rem; }
+    .dir.is-active h3 { color: var(--accent); }
 
-    /* directions */
-    .dir-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .dir { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
-    .dir h3 { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
-    .dir p { margin: 0; font-size: 0.92rem; color: var(--soft); }
+    .pane { position: sticky; top: 24px; min-width: 0; }
+    .stage { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .stage .media { display: none; }
+    .stage .media.is-on { display: block; }
+    .stage video, .stage img { display: block; width: 100%; height: auto; background: #000; }
+    .stage img { background: var(--surface); }
+    .stage .cap { padding: 10px 14px 12px; font-size: 0.88rem; color: var(--soft); line-height: 1.5; border-top: 1px solid var(--line); }
+    .stage .cap strong { color: var(--fg); font-weight: 600; }
+    .alts { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .alts button { font: inherit; font-size: 0.82rem; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--soft); cursor: pointer; }
+    .alts button.is-on { border-color: var(--accent); color: var(--accent); }
+    .alts:empty { display: none; }
+
+    /* inline media for narrow screens */
+    .inline-media { display: none; margin: 0 0 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .inline-media video, .inline-media img { display: block; width: 100%; height: auto; background: #000; }
+    .inline-media img { background: var(--surface); }
+    .inline-media .cap { padding: 8px 12px 10px; font-size: 0.85rem; color: var(--soft); line-height: 1.5; }
 
     /* repos */
     .repo { display: grid; grid-template-columns: 1fr auto; gap: 8px 18px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
@@ -89,12 +105,15 @@
 
     footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
 
-    @media (max-width: 720px) {
+    @media (max-width: 860px) {
       main { padding-top: 32px; }
       header { flex-direction: column; gap: 18px; }
       header img { width: 96px; height: 96px; }
-      .anim-grid, .dir-list { grid-template-columns: 1fr; }
       h1 span { display: block; margin-left: 0; }
+      .research { grid-template-columns: 1fr; gap: 0; }
+      .pane { display: none; }
+      .inline-media { display: block; }
+      .dir.is-active h3 { color: inherit; }
     }
   </style>
 </head>
@@ -115,81 +134,183 @@
     </div>
   </header>
 
-  <section id="animations">
-    <h2>In motion</h2>
-    <p class="intro">Four short animations from recent work. All simulations use Taiwan 3-D velocity models and a traction-image finite-difference code.</p>
-    <div class="anim-grid">
-      <figure>
-        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video>
-        <figcaption><strong>An M 8 Ryukyu scenario in two 3-D velocity models.</strong> Wavefield on sections through the hypocenter, then at the free surface, ending with peak ground velocity. KC3D vs HH3D, same source.</figcaption>
-      </figure>
-      <figure>
-        <video controls muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video>
-        <figcaption><strong>The two velocity models, slice by slice.</strong> V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</figcaption>
-      </figure>
-      <figure>
-        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ffi-velocity-model.png"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video>
-        <figcaption><strong>A synthetic finite-fault test in central-western Taiwan.</strong> The Lee et al. (2025) velocity model, a hypothetical thrust beneath the Chianan Plain, and eight stations.</figcaption>
-      </figure>
-      <figure class="portrait">
-        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
-        <figcaption><strong>Slip inverted with 3-D Green's functions.</strong> Reference model (top) and the model inverted with strain Green's tensors (middle); slip correlation 0.96, moment within 2%.</figcaption>
-      </figure>
-    </div>
-  </section>
+  <h2 id="research">Research</h2>
+  <div class="research">
+    <div class="dirs">
 
-  <section id="research">
-    <h2>Research directions</h2>
-    <div class="dir-list">
-      <div class="dir">
+      <section class="dir" id="d1" data-media="slip model">
+        <div class="num">01</div>
         <h3>Finite-fault inversion with 3-D Green's functions</h3>
-        <p>The strain Green's tensor approach makes a waveform inversion in 3-D structure cost little more than one in a layered model. Rebuilt and validated for Taiwan, for near-real-time use and systematic studies of how Taiwan's earthquakes rupture.</p>
-      </div>
-      <div class="dir">
+        <div class="inline-media">
+          <video controls muted loop playsinline preload="none" poster="assets/fig-ffi-slip-evolution.png" style="aspect-ratio: 964 / 1080"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
+          <div class="cap">Reference slip model (top) and the model inverted with 3-D strain Green's tensors (middle).</div>
+        </div>
+        <p>Most finite-fault inversions still use Green's functions from layered models. The strain Green's tensor approach reads the 3-D Green's function from a strain field computed once per station, so an inversion in 3-D structure costs little more than one in a layered model.</p>
+        <p>The tool is rebuilt and validated on a Taiwan 3-D velocity model: in a synthetic test the inverted slip matches the reference at correlation 0.96. Next: near-real-time slip models within hours of a large earthquake, and systematic inversions of how Taiwan's earthquakes rupture.</p>
+        <p class="more"><a href="https://mchsieh.github.io/FFF3D">FFF3D walkthrough →</a></p>
+      </section>
+
+      <section class="dir" id="d2" data-media="wave velocity">
+        <div class="num">02</div>
         <h3>3-D ground-motion simulation and nonergodic ground-motion models</h3>
-        <p>A simulation capability for any region, shown on an M 8 Ryukyu scenario and validated against Hualien records up to 8 Hz, feeding nonergodic path terms for ground-motion models and, next, nonergodic PSHA.</p>
-      </div>
-      <div class="dir">
+        <div class="inline-media">
+          <video controls muted loop playsinline preload="none" poster="assets/fig-ryukyu-wavefield.png" style="aspect-ratio: 16 / 9"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video>
+          <div class="cap">An M 8 Ryukyu scenario in two 3-D velocity models, KC3D and HH3D, with the same source.</div>
+        </div>
+        <p>A simulation capability that joins Taiwan 3-D velocity models, topography and characterized source models in a finite-difference code, applicable to any region once a scenario is defined. The Ryukyu subduction zone, with no near-field record of a great earthquake since 1920, is the first case.</p>
+        <p>The synthetics feed the latest nonergodic ground-motion-model methodology, yielding path terms that describe how the deep 3-D structure amplifies or reduces shaking. Broadband simulations of four Hualien earthquakes reproduce recorded motions up to 8 Hz. Next: dynamic rupture sources and nonergodic PSHA for eastern Taiwan.</p>
+      </section>
+
+      <section class="dir" id="d3" data-media="das">
+        <div class="num">03</div>
         <h3>Fault-zone DAS and strain-rate simulation</h3>
-        <p>A finite-difference code modified to compute strain rate directly, so that simulations compare with distributed acoustic sensing data; first used to explain lightning-induced signals in borehole DAS, now applied to the Milun fault zone.</p>
-      </div>
-      <div class="dir">
+        <div class="inline-media">
+          <img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS" loading="lazy">
+          <div class="cap">Strain-rate synthetics locate a lightning-induced event in borehole DAS data and fix its implosive mechanism (Lin et al., 2026).</div>
+        </div>
+        <p>Distributed acoustic sensing along the borehole fiber across the Milun Fault records strain rate, which finite-difference codes do not compute. I modified the traction-image finite-difference code so that it outputs the strain-rate wavefield directly and verified it against DAS recordings.</p>
+        <p>The first application explained impulsive events recorded right after cloud-to-ground lightning strikes. Next: the strain-rate wavefield of local earthquakes across the Milun fault zone, to constrain its width, velocity reduction and asymmetry.</p>
+      </section>
+
+      <section class="dir" id="d4" data-media="dashboard">
+        <div class="num">04</div>
         <h3>Real-time earthquake and ground-shaking forecasting</h3>
-        <p>An ETAS and ground-motion system that runs hourly for Taiwan, giving site-specific probabilities of shaking intensity; next-generation ETAS models and a precursor study combining VLF radio observations with ETAS.</p>
-      </div>
-      <div class="dir">
+        <div class="inline-media">
+          <img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities" loading="lazy">
+          <div class="cap">ETAS-GMprob: hourly probabilities of reaching each intensity level at seven cities.</div>
+        </div>
+        <p>A method that couples the ETAS model with a ground-motion model to analyze seismicity and site-specific shaking intensity together. It runs every hour for Taiwan as ETAS-GMprob, giving the probability of reaching intensity 3 and above within 24, 72 and 168 hours at seven cities, and its forecasts matched the aftershock distribution of the 2024 M 7.2 Hualien sequence.</p>
+        <p>Next: depth-dependent, rupture-aware and Gaussian-process ETAS models, and a precursor study with CNR-IAC Bari that combines VLF radio observations with ETAS, first set up for the Aegean.</p>
+        <p class="more"><a href="https://mchsieh.github.io/etas-gmprob-dashboard/">Live dashboard →</a></p>
+      </section>
+
+      <section class="dir" id="d5" data-media="aegean">
+        <div class="num">05</div>
         <h3>Micro-seismic monitoring at CCUS and other sites</h3>
-        <p>ETAS and stochastic declustering to separate induced from background seismicity at CO<sub>2</sub> storage sites, reservoirs, injection tests and geothermal fields.</p>
+        <div class="inline-media">
+          <img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity" loading="lazy">
+          <div class="cap">The ETAS system applied to the Aegean: catalog (left) and conditional intensity (right).</div>
+        </div>
+        <p>ETAS and stochastic declustering separate induced from background seismicity in a local catalog, so that a change in the background rate or a migration of events toward an injection point or a reservoir stands out from ordinary aftershock clustering.</p>
+        <p>CO<sub>2</sub> storage sites, reservoirs, injection tests and geothermal fields all change the stress in the crust by human action, and all exist in Taiwan. A well-observed injection or impoundment is also a controlled experiment on how fluid pressure triggers earthquakes.</p>
+      </section>
+
+    </div>
+
+    <aside class="pane" aria-label="Figures and animations for the research directions">
+      <div class="stage" id="stage">
+        <div class="media" data-key="slip">
+          <video muted loop playsinline preload="metadata" controls poster="assets/fig-ffi-slip-evolution.png" style="aspect-ratio: 964 / 1080"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
+          <div class="cap"><strong>Slip inverted with 3-D Green's functions.</strong> Reference model (top), inverted model (middle), moment-rate functions (bottom). Synthetic test in a Taiwan 3-D model.</div>
+        </div>
+        <div class="media" data-key="model">
+          <video muted loop playsinline preload="metadata" controls poster="assets/fig-ffi-velocity-model.png" style="aspect-ratio: 16 / 9"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video>
+          <div class="cap"><strong>The setting of the test.</strong> Lee et al. (2025) velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations.</div>
+        </div>
+        <div class="media" data-key="wave">
+          <video muted loop playsinline preload="metadata" controls poster="assets/fig-ryukyu-wavefield.png" style="aspect-ratio: 16 / 9"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video>
+          <div class="cap"><strong>An M 8 Ryukyu scenario in two 3-D velocity models.</strong> Sections through the hypocenter, then the free surface, ending with peak ground velocity. KC3D vs HH3D, same source.</div>
+        </div>
+        <div class="media" data-key="velocity">
+          <video muted loop playsinline preload="metadata" controls poster="assets/poster-velocity-models.png" style="aspect-ratio: 16 / 9"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video>
+          <div class="cap"><strong>The two velocity models, slice by slice.</strong> V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</div>
+        </div>
+        <div class="media" data-key="das">
+          <img src="assets/fig-das-lightning-strain.png" alt="Strain-rate synthetics for a lightning-induced event recorded by borehole DAS">
+          <div class="cap"><strong>Strain rate from the modified code.</strong> Trial source locations in the borehole (a, b) and observed vs synthetic strain rate for implosive and explosive sources (c, d). From Lin et al. (2026).</div>
+        </div>
+        <div class="media" data-key="dashboard">
+          <img src="assets/fig-etas-dashboard.png" alt="ETAS-GMprob dashboard showing shaking probabilities at seven cities">
+          <div class="cap"><strong>ETAS-GMprob.</strong> Hourly probabilities of reaching each intensity level at seven cities, from ETAS and a ground-motion model. <a href="https://mchsieh.github.io/etas-gmprob-dashboard/">Open the live page</a>.</div>
+        </div>
+        <div class="media" data-key="aegean">
+          <img src="assets/fig-etas-aegean.png" alt="Aegean seismicity and ETAS conditional intensity">
+          <div class="cap"><strong>The ETAS system on the Aegean.</strong> Catalog with magnitude and depth (left) and ETAS conditional intensity (right); the test area for the VLF precursor study with CNR-IAC Bari.</div>
+        </div>
       </div>
-    </div>
-  </section>
+      <div class="alts" id="alts"></div>
+    </aside>
+  </div>
 
-  <section id="projects">
-    <h2>Open projects</h2>
-    <div class="repo">
-      <h3><a href="https://mchsieh.github.io/etas-gmprob-dashboard/">ETAS-GMprob</a></h3>
-      <a class="go" href="https://github.com/mchsieh/etas-gmprob-dashboard">repository →</a>
-      <p>Hourly ground-shaking probability assessment for Taiwan: an ETAS model fitted to the Central Weather Administration catalog, synthetic catalogs, and a ground-motion model give the probability of reaching each intensity level at seven cities over 24, 72 and 168 hours.</p>
-    </div>
-    <div class="repo">
-      <h3><a href="https://mchsieh.github.io/FFF3D">FFF3D</a></h3>
-      <a class="go" href="https://github.com/mchsieh/FFF3D">repository →</a>
-      <p>A step-by-step walkthrough of a synthetic finite-fault inversion with 3-D strain Green's tensors in a Taiwan velocity model, with inputs, logs and the result report, so that each step can be checked against the expected output.</p>
-    </div>
-  </section>
+  <h2 id="projects">Open projects</h2>
+  <div class="repo">
+    <h3><a href="https://mchsieh.github.io/etas-gmprob-dashboard/">ETAS-GMprob</a></h3>
+    <a class="go" href="https://github.com/mchsieh/etas-gmprob-dashboard">repository →</a>
+    <p>Hourly ground-shaking probability assessment for Taiwan: an ETAS model fitted to the Central Weather Administration catalog, synthetic catalogs, and a ground-motion model give the probability of reaching each intensity level at seven cities over 24, 72 and 168 hours.</p>
+  </div>
+  <div class="repo">
+    <h3><a href="https://mchsieh.github.io/FFF3D">FFF3D</a></h3>
+    <a class="go" href="https://github.com/mchsieh/FFF3D">repository →</a>
+    <p>A step-by-step walkthrough of a synthetic finite-fault inversion with 3-D strain Green's tensors in a Taiwan velocity model, with inputs, logs and the result report, so that each step can be checked against the expected output.</p>
+  </div>
 
-  <section id="publications">
-    <h2>Selected publications</h2>
-    <ul class="pubs">
-      <li><em>Hsieh, M.-C.</em>, C.-H. Sung, and Y.-C. Yang (2026). Nonergodic path effects from 3D ground-motion simulations of an M 8 Ryukyu earthquake in eastern Taiwan. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260149">doi: 10.1785/0220260149</a>.</li>
-      <li>Zhang, W., <em>M.-C. Hsieh</em>, and P.-Y. Chen (2026). Large-scale physics-based broadband (up to 8 Hz) ground-motion simulations of M<sub>w</sub> 6.4+ earthquakes for Hualien, Taiwan, area. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260146">doi: 10.1785/0220260146</a>.</li>
-      <li>Lin, Y.-Y., H.-H. Huang, <em>M.-C. Hsieh</em>, et al. (2026). Lightning-induced implosive microseismic events at depth detected by downhole distributed acoustic sensing in Taiwan. <i>Seismol. Res. Lett.</i> 97, 2290–2302, <a href="https://doi.org/10.1785/0220250432">doi: 10.1785/0220250432</a>.</li>
-      <li><em>Hsieh, M.-C.</em>, C.-H. Chan, K.-F. Ma, et al. (2024). Toward real-time ground-shaking-intensity forecasting using ETAS and GMM: Insights from the analysis of the 2022 Taitung earthquake sequence. <i>Seismol. Res. Lett.</i> 95, 3264–3277, <a href="https://doi.org/10.1785/0220240180">doi: 10.1785/0220240180</a>.</li>
-      <li><em>Hsieh, M.-C.</em>, L. Zhao, C. Ji, and K.-F. Ma (2016). Efficient inversions for earthquake slip distributions in 3D structures. <i>Seismol. Res. Lett.</i> 87, 1342–1354, <a href="https://doi.org/10.1785/0220160050">doi: 10.1785/0220160050</a>.</li>
-    </ul>
-  </section>
+  <h2 id="publications">Selected publications</h2>
+  <ul class="pubs">
+    <li><em>Hsieh, M.-C.</em>, C.-H. Sung, and Y.-C. Yang (2026). Nonergodic path effects from 3D ground-motion simulations of an M 8 Ryukyu earthquake in eastern Taiwan. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260149">doi: 10.1785/0220260149</a>.</li>
+    <li>Zhang, W., <em>M.-C. Hsieh</em>, and P.-Y. Chen (2026). Large-scale physics-based broadband (up to 8 Hz) ground-motion simulations of M<sub>w</sub> 6.4+ earthquakes for Hualien, Taiwan, area. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260146">doi: 10.1785/0220260146</a>.</li>
+    <li>Lin, Y.-Y., H.-H. Huang, <em>M.-C. Hsieh</em>, et al. (2026). Lightning-induced implosive microseismic events at depth detected by downhole distributed acoustic sensing in Taiwan. <i>Seismol. Res. Lett.</i> 97, 2290–2302, <a href="https://doi.org/10.1785/0220250432">doi: 10.1785/0220250432</a>.</li>
+    <li><em>Hsieh, M.-C.</em>, C.-H. Chan, K.-F. Ma, et al. (2024). Toward real-time ground-shaking-intensity forecasting using ETAS and GMM: Insights from the analysis of the 2022 Taitung earthquake sequence. <i>Seismol. Res. Lett.</i> 95, 3264–3277, <a href="https://doi.org/10.1785/0220240180">doi: 10.1785/0220240180</a>.</li>
+    <li><em>Hsieh, M.-C.</em>, L. Zhao, C. Ji, and K.-F. Ma (2016). Efficient inversions for earthquake slip distributions in 3D structures. <i>Seismol. Res. Lett.</i> 87, 1342–1354, <a href="https://doi.org/10.1785/0220160050">doi: 10.1785/0220160050</a>.</li>
+  </ul>
 
   <footer>© 2026 Ming-Che Hsieh · Hosted on GitHub Pages</footer>
 </main>
+
+<script>
+(function () {
+  var labels = { slip: "Slip evolution", model: "Velocity model", wave: "Wavefield", velocity: "Velocity models", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean" };
+  var stage = document.getElementById("stage");
+  var alts = document.getElementById("alts");
+  var dirs = Array.prototype.slice.call(document.querySelectorAll(".dir"));
+  var medias = Array.prototype.slice.call(stage.querySelectorAll(".media"));
+  var current = null;
+
+  function show(key) {
+    medias.forEach(function (m) {
+      var on = m.dataset.key === key;
+      m.classList.toggle("is-on", on);
+      var v = m.querySelector("video");
+      if (v) { if (on) { v.play().catch(function () {}); } else { v.pause(); } }
+    });
+    Array.prototype.forEach.call(alts.children, function (b) { b.classList.toggle("is-on", b.dataset.key === key); });
+  }
+
+  function activate(dir) {
+    if (dir === current) return;
+    current = dir;
+    dirs.forEach(function (d) { d.classList.toggle("is-active", d === dir); });
+    var keys = dir.dataset.media.split(" ");
+    alts.innerHTML = "";
+    if (keys.length > 1) {
+      keys.forEach(function (k) {
+        var b = document.createElement("button");
+        b.type = "button"; b.dataset.key = k; b.textContent = labels[k] || k;
+        b.addEventListener("click", function () { show(k); });
+        alts.appendChild(b);
+      });
+    }
+    show(keys[0]);
+  }
+
+  function pick() {
+    var line = window.innerHeight * 0.4;
+    var best = dirs[0], bestDist = Infinity;
+    dirs.forEach(function (d) {
+      var r = d.getBoundingClientRect();
+      if (r.top <= line && r.bottom >= line) { best = d; bestDist = -1; return; }
+      var dist = Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line));
+      if (bestDist !== -1 && dist < bestDist) { best = d; bestDist = dist; }
+    });
+    activate(best);
+  }
+
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { pick(); ticking = false; }); }
+  }, { passive: true });
+  window.addEventListener("resize", pick);
+  pick();
+})();
+</script>
 </body>
 </html>
