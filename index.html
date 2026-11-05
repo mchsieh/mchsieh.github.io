@@ -1,94 +1,195 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ming-Che Hsieh</title>
-  <meta name="description" content="Ming-Che Hsieh 的個人專頁 — National Central University">
+  <meta name="description" content="Ming-Che Hsieh (謝銘哲), Associate Research Fellow at E-DREaM, National Central University. Computational and statistical seismology: 3-D ground-motion simulation, finite-fault inversion in 3-D structure, and real-time earthquake forecasting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #fafaf7;
-      --fg: #1f2328;
-      --muted: #6b7280;
-      --accent: #1d4e89;
-      --line: #e5e7eb;
-      --card: #ffffff;
+      --bg: #fbfbf9;
+      --surface: #ffffff;
+      --fg: #1e293b;
+      --soft: #475569;
+      --muted: #64748b;
+      --accent: #2f6db5;
+      --accent-dark: #1f4f8a;
+      --line: #e2e8f0;
+      --tint: #eef3f9;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0f1419;
+        --bg: #0f141a;
+        --surface: #161d26;
         --fg: #e6edf3;
-        --muted: #9aa4af;
+        --soft: #c3cdd8;
+        --muted: #8b98a7;
         --accent: #7fb3ff;
-        --line: #2a313a;
-        --card: #161c23;
+        --accent-dark: #a9cbff;
+        --line: #2a3441;
+        --tint: #1b2530;
       }
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--fg);
-      font-family: -apple-system, "PingFang TC", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.7;
+      font-family: "IBM Plex Sans", -apple-system, "PingFang TC", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
-    main { max-width: 760px; margin: 0 auto; padding: 56px 16px 80px; }
-    header { border-bottom: 1px solid var(--line); padding-bottom: 28px; margin-bottom: 36px; }
-    h1 { font-size: 2rem; margin: 0 0 4px; letter-spacing: 0.01em; }
-    .sub { color: var(--muted); margin: 0; }
-    .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 18px; }
-    .links a { color: var(--accent); text-decoration: none; }
-    .links a:hover { text-decoration: underline; }
-    h2 { font-size: 1.15rem; margin: 36px 0 12px; color: var(--accent); }
-    section p { margin: 0 0 12px; }
-    ul { padding-left: 1.2em; margin: 0; }
-    li { margin-bottom: 8px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; }
-    footer { margin-top: 56px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 20px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-dark); text-decoration: underline; }
+    main { max-width: 960px; margin: 0 auto; padding: 48px 16px 72px; }
+
+    /* header */
+    header { display: flex; gap: 28px; align-items: flex-start; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    header img { width: 128px; height: 128px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); flex: none; }
+    h1 { font-size: 2rem; font-weight: 600; margin: 0; letter-spacing: 0.005em; line-height: 1.2; }
+    h1 span { font-weight: 400; color: var(--muted); font-size: 1.2rem; margin-left: 0.5em; }
+    .role { margin: 6px 0 0; color: var(--soft); }
+    .tagline { margin: 14px 0 0; max-width: 60ch; }
+    .links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+    .links a { display: inline-block; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.9rem; background: var(--surface); }
+    .links a:hover { border-color: var(--accent); text-decoration: none; }
+
+    h2 { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 44px 0 16px; }
+    .intro { color: var(--soft); margin: 0 0 18px; max-width: 70ch; }
+
+    /* animations */
+    .anim-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    figure video { display: block; width: 100%; height: auto; background: #000; aspect-ratio: 16 / 9; }
+    figure.portrait video { aspect-ratio: 964 / 1080; }
+    figcaption { padding: 10px 14px 12px; font-size: 0.88rem; color: var(--soft); line-height: 1.5; }
+    figcaption strong { color: var(--fg); font-weight: 600; }
+
+    /* directions */
+    .dir-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .dir { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+    .dir h3 { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+    .dir p { margin: 0; font-size: 0.92rem; color: var(--soft); }
+
+    /* repos */
+    .repo { display: grid; grid-template-columns: 1fr auto; gap: 8px 18px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
+    .repo:last-child { border-bottom: 1px solid var(--line); }
+    .repo h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+    .repo p { margin: 4px 0 0; font-size: 0.92rem; color: var(--soft); grid-column: 1 / -1; }
+    .repo .go { font-size: 0.9rem; white-space: nowrap; }
+
+    /* publications */
+    .pubs { margin: 0; padding: 0; list-style: none; }
+    .pubs li { padding: 8px 0 8px 1.2em; text-indent: -1.2em; font-size: 0.95rem; color: var(--soft); }
+    .pubs li em { color: var(--fg); font-style: normal; }
+
+    footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 720px) {
+      main { padding-top: 32px; }
+      header { flex-direction: column; gap: 18px; }
+      header img { width: 96px; height: 96px; }
+      .anim-grid, .dir-list { grid-template-columns: 1fr; }
+      h1 span { display: block; margin-left: 0; }
+    }
   </style>
 </head>
 <body>
 <main>
   <header>
-    <h1>Ming-Che Hsieh</h1>
-    <p class="sub">National Central University</p>
-    <div class="links">
-      <a href="https://github.com/mchsieh">GitHub</a>
-      <a href="mailto:duom1104@gmail.com">Email</a>
+    <img src="assets/portrait.jpg" alt="Portrait of Ming-Che Hsieh">
+    <div>
+      <h1>Ming-Che Hsieh <span>謝銘哲</span></h1>
+      <p class="role">Associate Research Fellow · Earthquake Disaster &amp; Risk Evaluation and Management Center (E-DREaM), National Central University, Taiwan</p>
+      <p class="tagline">I follow an earthquake from the fault to the shaking and to the sequence that follows: finite-fault inversion in 3-D structure, 3-D ground-motion simulation, and real-time earthquake forecasting with the ETAS model.</p>
+      <div class="links">
+        <a href="https://github.com/mchsieh">GitHub</a>
+        <a href="mailto:mchsieh@ncu.edu.tw">mchsieh@ncu.edu.tw</a>
+        <a href="https://mchsieh.github.io/etas-gmprob-dashboard/">ETAS-GMprob dashboard</a>
+        <a href="https://mchsieh.github.io/FFF3D">FFF3D walkthrough</a>
+      </div>
     </div>
   </header>
 
-  <section>
-    <h2>關於我</h2>
-    <p>這裡可以放一段簡短的自我介紹：目前的身份、研究興趣與背景。</p>
-  </section>
-
-  <section>
-    <h2>研究興趣</h2>
-    <div class="card">
-      <ul>
-        <li>研究主題一</li>
-        <li>研究主題二</li>
-        <li>研究主題三</li>
-      </ul>
+  <section id="animations">
+    <h2>In motion</h2>
+    <p class="intro">Four short animations from recent work. All simulations use Taiwan 3-D velocity models and a traction-image finite-difference code.</p>
+    <div class="anim-grid">
+      <figure>
+        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video>
+        <figcaption><strong>An M 8 Ryukyu scenario in two 3-D velocity models.</strong> Wavefield on sections through the hypocenter, then at the free surface, ending with peak ground velocity. KC3D vs HH3D, same source.</figcaption>
+      </figure>
+      <figure>
+        <video controls muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video>
+        <figcaption><strong>The two velocity models, slice by slice.</strong> V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</figcaption>
+      </figure>
+      <figure>
+        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ffi-velocity-model.png"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video>
+        <figcaption><strong>A synthetic finite-fault test in central-western Taiwan.</strong> The Lee et al. (2025) velocity model, a hypothetical thrust beneath the Chianan Plain, and eight stations.</figcaption>
+      </figure>
+      <figure class="portrait">
+        <video controls muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
+        <figcaption><strong>Slip inverted with 3-D Green's functions.</strong> Reference model (top) and the model inverted with strain Green's tensors (middle); slip correlation 0.96, moment within 2%.</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section>
-    <h2>學歷</h2>
-    <ul>
-      <li>學校 / 系所 / 學位 / 年份</li>
+  <section id="research">
+    <h2>Research directions</h2>
+    <div class="dir-list">
+      <div class="dir">
+        <h3>Finite-fault inversion with 3-D Green's functions</h3>
+        <p>The strain Green's tensor approach makes a waveform inversion in 3-D structure cost little more than one in a layered model. Rebuilt and validated for Taiwan, for near-real-time use and systematic studies of how Taiwan's earthquakes rupture.</p>
+      </div>
+      <div class="dir">
+        <h3>3-D ground-motion simulation and nonergodic ground-motion models</h3>
+        <p>A simulation capability for any region, shown on an M 8 Ryukyu scenario and validated against Hualien records up to 8 Hz, feeding nonergodic path terms for ground-motion models and, next, nonergodic PSHA.</p>
+      </div>
+      <div class="dir">
+        <h3>Fault-zone DAS and strain-rate simulation</h3>
+        <p>A finite-difference code modified to compute strain rate directly, so that simulations compare with distributed acoustic sensing data; first used to explain lightning-induced signals in borehole DAS, now applied to the Milun fault zone.</p>
+      </div>
+      <div class="dir">
+        <h3>Real-time earthquake and ground-shaking forecasting</h3>
+        <p>An ETAS and ground-motion system that runs hourly for Taiwan, giving site-specific probabilities of shaking intensity; next-generation ETAS models and a precursor study combining VLF radio observations with ETAS.</p>
+      </div>
+      <div class="dir">
+        <h3>Micro-seismic monitoring at CCUS and other sites</h3>
+        <p>ETAS and stochastic declustering to separate induced from background seismicity at CO<sub>2</sub> storage sites, reservoirs, injection tests and geothermal fields.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Open projects</h2>
+    <div class="repo">
+      <h3><a href="https://mchsieh.github.io/etas-gmprob-dashboard/">ETAS-GMprob</a></h3>
+      <a class="go" href="https://github.com/mchsieh/etas-gmprob-dashboard">repository →</a>
+      <p>Hourly ground-shaking probability assessment for Taiwan: an ETAS model fitted to the Central Weather Administration catalog, synthetic catalogs, and a ground-motion model give the probability of reaching each intensity level at seven cities over 24, 72 and 168 hours.</p>
+    </div>
+    <div class="repo">
+      <h3><a href="https://mchsieh.github.io/FFF3D">FFF3D</a></h3>
+      <a class="go" href="https://github.com/mchsieh/FFF3D">repository →</a>
+      <p>A step-by-step walkthrough of a synthetic finite-fault inversion with 3-D strain Green's tensors in a Taiwan velocity model, with inputs, logs and the result report, so that each step can be checked against the expected output.</p>
+    </div>
+  </section>
+
+  <section id="publications">
+    <h2>Selected publications</h2>
+    <ul class="pubs">
+      <li><em>Hsieh, M.-C.</em>, C.-H. Sung, and Y.-C. Yang (2026). Nonergodic path effects from 3D ground-motion simulations of an M 8 Ryukyu earthquake in eastern Taiwan. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260149">doi: 10.1785/0220260149</a>.</li>
+      <li>Zhang, W., <em>M.-C. Hsieh</em>, and P.-Y. Chen (2026). Large-scale physics-based broadband (up to 8 Hz) ground-motion simulations of M<sub>w</sub> 6.4+ earthquakes for Hualien, Taiwan, area. <i>Seismol. Res. Lett.</i>, <a href="https://doi.org/10.1785/0220260146">doi: 10.1785/0220260146</a>.</li>
+      <li>Lin, Y.-Y., H.-H. Huang, <em>M.-C. Hsieh</em>, et al. (2026). Lightning-induced implosive microseismic events at depth detected by downhole distributed acoustic sensing in Taiwan. <i>Seismol. Res. Lett.</i> 97, 2290–2302, <a href="https://doi.org/10.1785/0220250432">doi: 10.1785/0220250432</a>.</li>
+      <li><em>Hsieh, M.-C.</em>, C.-H. Chan, K.-F. Ma, et al. (2024). Toward real-time ground-shaking-intensity forecasting using ETAS and GMM: Insights from the analysis of the 2022 Taitung earthquake sequence. <i>Seismol. Res. Lett.</i> 95, 3264–3277, <a href="https://doi.org/10.1785/0220240180">doi: 10.1785/0220240180</a>.</li>
+      <li><em>Hsieh, M.-C.</em>, L. Zhao, C. Ji, and K.-F. Ma (2016). Efficient inversions for earthquake slip distributions in 3D structures. <i>Seismol. Res. Lett.</i> 87, 1342–1354, <a href="https://doi.org/10.1785/0220160050">doi: 10.1785/0220160050</a>.</li>
     </ul>
   </section>
 
-  <section>
-    <h2>經歷與作品</h2>
-    <ul>
-      <li>計畫、論文、報告或專案名稱，附上連結</li>
-    </ul>
-  </section>
-
-  <footer>© 2026 Ming-Che Hsieh · 以 GitHub Pages 架設</footer>
+  <footer>© 2026 Ming-Che Hsieh · Hosted on GitHub Pages</footer>
 </main>
 </body>
 </html>
