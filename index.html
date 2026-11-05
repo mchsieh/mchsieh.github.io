@@ -108,11 +108,24 @@
     .frame .media.is-on { opacity: 1; pointer-events: auto; }
     .frame video, .frame img, .frame svg { display: block; width: 100%; height: 100%; object-fit: contain; }
     .frame .media.light { background: var(--surface); }
-    .frame .ctl { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity 0.2s; }
-    .frame:hover .ctl, .frame:focus-within .ctl { opacity: 1; }
-    .ctl button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); background: rgba(15,20,26,0.65); color: #fff; cursor: pointer; display: grid; place-items: center; padding: 0; }
-    .ctl button svg { width: 16px; height: 16px; fill: currentColor; }
-    .ctl .mute { opacity: 0.7; cursor: default; }
+    .tabs button:not(.is-on).pulse { animation: tabpulse 1.6s ease-in-out infinite; }
+    @keyframes tabpulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(47,109,181,0.0); border-color: var(--line-strong); }
+      50% { box-shadow: 0 0 0 5px rgba(47,109,181,0.18); border-color: var(--accent); color: var(--accent); }
+    }
+    .frame .bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(10,14,20,0.72); color: #fff; opacity: 0; transition: opacity 0.2s; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+    .frame:hover .bar, .frame:focus-within .bar, .frame.is-paused .bar, .frame.show-bar .bar { opacity: 1; }
+    .bar button { width: 32px; height: 32px; flex: none; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; display: grid; place-items: center; padding: 0; }
+    .bar button:hover { background: rgba(255,255,255,0.2); }
+    .bar button svg { width: 15px; height: 15px; fill: currentColor; }
+    .bar .time { min-width: 86px; text-align: center; opacity: 0.9; }
+    .bar input[type=range] { flex: 1; min-width: 0; height: 22px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+    .frame.no-video .bar .vid { display: none; }
+    .frame.no-video .bar { justify-content: flex-end; background: transparent; }
+    .frame.no-video .bar button { background: rgba(10,14,20,0.6); }
+    .frame:fullscreen { background: #000; }
+    .frame:fullscreen .media.light { background: #000; }
+    .frame:fullscreen .bar { padding: 12px 20px; font-size: 0.95rem; }
     .captions { position: relative; min-height: 88px; }
     .cap { position: absolute; inset: 0; padding: 14px 18px 16px; font-size: 0.98rem; color: var(--soft); line-height: 1.5; opacity: 0; transition: opacity 0.3s ease; }
     .cap.is-on { opacity: 1; }
@@ -177,6 +190,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .frame .media, .cap, .rail-fill, .dir h3, .dir::before { transition: none; }
+      .tabs button:not(.is-on).pulse { animation: none; border-color: var(--accent); }
     }
   </style>
 </head>
@@ -383,9 +397,11 @@
 <text x="530" y="484" class="s alert-t">Alert: background rate rises after injection starts</text>
 </svg>
           </div>
-          <div class="ctl" id="ctl">
-            <button type="button" id="playBtn" aria-label="Play or pause"><svg viewBox="0 0 16 16" id="playIcon"><path d="M4 2.5v11l9-5.5z"/></svg></button>
-            <button type="button" class="mute" aria-label="Muted" tabindex="-1"><svg viewBox="0 0 16 16"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11 5.5l3 5M14 5.5l-3 5" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></button>
+          <div class="bar" id="bar">
+            <button type="button" class="vid" id="playBtn" aria-label="Play or pause"><svg viewBox="0 0 16 16" id="playIcon"><path d="M4 2.5v11l9-5.5z"/></svg></button>
+            <span class="time vid" id="timeLbl">0:00 / 0:00</span>
+            <input class="vid" type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Seek">
+            <button type="button" id="fsBtn" aria-label="Full screen"><svg viewBox="0 0 16 16"><path d="M2 6V2h4v1.5H3.5V6zM10 2h4v4h-1.5V3.5H10zM2 10h1.5v2.5H6V14H2zM12.5 10H14v4h-4v-1.5h2.5z"/></svg></button>
           </div>
         </div>
         <div class="captions" id="captions">
@@ -430,10 +446,28 @@
 (function () {
   var labels = { model: "1 · Setting", slip: "2 · Inversion result", velocity: "1 · Velocity models", wave: "2 · Scenario wavefield", das: "Strain rate", dashboard: "Dashboard", aegean: "Aegean", induced: "Declustering" };
   var introTimer = null;
+  var seen = {};
+  function pulseTabs() {
+    Array.prototype.forEach.call(tabs.children, function (b) {
+      b.classList.toggle("pulse", !b.classList.contains("is-on") && !seen[b.dataset.key]);
+    });
+  }
   var tabs = document.getElementById("tabs");
   var frame = document.getElementById("frame");
-  var ctl = document.getElementById("ctl");
+  var bar = document.getElementById("bar");
   var playBtn = document.getElementById("playBtn");
+  var seek = document.getElementById("seek");
+  var timeLbl = document.getElementById("timeLbl");
+  var fsBtn = document.getElementById("fsBtn");
+  var seeking = false;
+  function fmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ":" + ("0" + (t % 60)).slice(-2); }
+  function syncBar() {
+    var v = activeVideo(); if (!v) return;
+    if (!seeking && v.duration) { seek.value = Math.round(v.currentTime / v.duration * 1000); }
+    timeLbl.textContent = fmt(v.currentTime) + " / " + fmt(v.duration);
+    frame.classList.toggle("is-paused", v.paused);
+    setIcon(!v.paused);
+  }
   var playIcon = document.getElementById("playIcon");
   var railFill = document.getElementById("railFill");
   var dirs = Array.prototype.slice.call(document.querySelectorAll(".dir"));
@@ -459,7 +493,12 @@
     caps.forEach(function (c) { c.classList.toggle("is-on", c.dataset.key === key); });
     sizeFrame();
     Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle("is-on", b.dataset.key === key); });
-    ctl.style.display = activeVideo() ? "" : "none";
+    pulseTabs();
+    frame.classList.toggle("no-video", !activeVideo());
+    frame.classList.remove("is-paused");
+    syncBar();
+    frame.classList.add("show-bar");
+    clearTimeout(show._t); show._t = setTimeout(function () { frame.classList.remove("show-bar"); }, 2200);
   }
   var stage = frame.closest(".stage");
   var pane = stage.parentElement;
@@ -486,7 +525,7 @@
       keys.forEach(function (k) {
         var b = document.createElement("button");
         b.type = "button"; b.dataset.key = k; b.textContent = labels[k] || k;
-        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; show(k); });
+        b.addEventListener("click", function () { clearTimeout(introTimer); introTimer = null; seen[k] = true; show(k); });
         tabs.appendChild(b);
       });
     }
@@ -521,15 +560,31 @@
     activate(best);
   }
 
-  playBtn.addEventListener("click", function () {
+  function toggle() {
     var v = activeVideo(); if (!v) return;
-    if (v.paused) { v.play().then(function () { setIcon(true); }); } else { v.pause(); setIcon(false); }
+    if (v.paused) { v.play().then(syncBar).catch(function () {}); } else { v.pause(); syncBar(); }
+  }
+  playBtn.addEventListener("click", toggle);
+  frame.addEventListener("click", function (e) { if (e.target.closest(".bar")) return; toggle(); });
+  seek.addEventListener("input", function () {
+    var v = activeVideo(); if (!v || !v.duration) return;
+    seeking = true; v.currentTime = seek.value / 1000 * v.duration; timeLbl.textContent = fmt(v.currentTime) + " / " + fmt(v.duration);
   });
-  frame.addEventListener("click", function (e) {
-    if (e.target.closest(".ctl")) return;
-    var v = activeVideo(); if (!v) return;
-    if (v.paused) { v.play().then(function () { setIcon(true); }); } else { v.pause(); setIcon(false); }
+  seek.addEventListener("change", function () { seeking = false; });
+  medias.forEach(function (m) {
+    var v = m.querySelector("video"); if (!v) return;
+    v.addEventListener("timeupdate", function () { if (m.classList.contains("is-on")) syncBar(); });
+    v.addEventListener("loadedmetadata", function () { if (m.classList.contains("is-on")) syncBar(); });
+    v.addEventListener("play", syncBar); v.addEventListener("pause", syncBar);
   });
+  fsBtn.addEventListener("click", function () {
+    var el = frame;
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    } else if (el.requestFullscreen) { el.requestFullscreen(); }
+    else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); }
+  });
+  document.addEventListener("fullscreenchange", function () { if (!document.fullscreenElement) { sizeFrame(); } });
 
   var ticking = false;
   window.addEventListener("scroll", function () {
