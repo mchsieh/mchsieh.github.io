@@ -230,7 +230,7 @@
           <video controls muted loop playsinline preload="none" poster="assets/fig-ffi-slip-evolution.png" style="aspect-ratio: 1180 / 1080"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
           <div class="icap">Reference slip model (top) and the model inverted with 3-D strain Green's tensors (bottom).</div>
         </div>
-        <p>The strain Green's tensor approach makes a waveform inversion in 3-D structure cost little more than one in a layered model; rebuilt on a Taiwan 3-D velocity model, it recovers a synthetic reference slip at correlation 0.96.</p>
+        <p>The strain Green's tensor approach (Hsieh et al., 2016) makes a waveform inversion in 3-D structure cost little more than one in a layered model; rebuilt on a Taiwan 3-D velocity model, it recovers a synthetic reference slip at correlation 0.96.</p>
         <p class="next"><b>Outlook</b><span>Near-real-time slip models within hours of a large earthquake, and systematic inversions of how Taiwan's earthquakes rupture.</span></p>
         <p class="more"><a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">FFF3D report →</a></p>
       </section>
@@ -342,7 +342,7 @@
           <div class="icap">FFF3D report: the finite-fault inversion tool, its workflow and the result of a synthetic test in a Taiwan 3-D velocity model.</div>
         </div>
         <p>Two pieces of this work are public, so that others can run them, check them and build on them.</p>
-        <p><a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">FFF3D</a> is the report of a synthetic test of the finite-fault inversion tool with 3-D strain Green's tensors in the Lee et al. (2025) Taiwan velocity model. It sets out the workflow: the velocity model and a hypothetical fault are set up, strain Green's tensors are computed for the stations, the synthetic records of the reference rupture become the observations, the slip is inverted on the subfault grid, and the result is compared with the reference. It then gives the verification tests, the settings and the results: the inverted slip matches the reference at a correlation of 0.96 and the moment within two percent. <a href="https://github.com/mchsieh/FFF3D" target="_blank" rel="noopener">Repository →</a></p>
+        <p><a href="https://mchsieh.github.io/FFF3D" target="_blank" rel="noopener">FFF3D</a> is the report of a synthetic test of the finite-fault inversion tool with 3-D strain Green's tensors (Hsieh et al., 2016) in a Taiwan 3-D velocity model. It sets out the workflow: the velocity model and a hypothetical fault are set up, strain Green's tensors are computed for the stations, the synthetic records of the reference rupture become the observations, the slip is inverted on the subfault grid, and the result is compared with the reference. It then gives the verification tests, the settings and the results: the inverted slip matches the reference at a correlation of 0.96 and the moment within two percent. <a href="https://github.com/mchsieh/FFF3D" target="_blank" rel="noopener">Repository →</a></p>
         <p><a href="https://mchsieh.github.io/etas-gmprob-dashboard/" target="_blank" rel="noopener">ETAS-GMprob</a> is a live page that updates every hour from the Central Weather Administration catalog: an ETAS model is refitted, one thousand synthetic catalogs are drawn for the next 24, 72 and 168 hours, and a Taiwan-calibrated ground-motion model turns them into the probability of reaching each intensity level at seven cities. It is a research product, not an official warning. <a href="https://github.com/mchsieh/etas-gmprob-dashboard" target="_blank" rel="noopener">Repository →</a></p>
       </section>
 
@@ -426,7 +426,7 @@
         </div>
         <div class="captions" id="captions">
           <div class="cap" data-key="slip"><strong>Inversion result: slip recovered at correlation 0.96</strong>Reference model (top) and the model inverted with 3-D strain Green's tensors (bottom), in a synthetic test on a Taiwan 3-D velocity model.</div>
-          <div class="cap" data-key="model"><strong>Setting of the synthetic test</strong>Lee et al. (2025) velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations. The inversion result follows.</div>
+          <div class="cap" data-key="model"><strong>Setting of the synthetic test</strong>A 3-D velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations. The inversion result follows.</div>
           <div class="cap" data-key="wave"><strong>An M 8 Ryukyu scenario in two 3-D velocity models</strong>Sections through the hypocenter, then the free surface, ending with peak ground velocity. Same source in KC3D and HH3D.</div>
           <div class="cap" data-key="velocity"><strong>The two velocity models, slice by slice</strong>V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</div>
           <div class="cap" data-key="das"><strong>Strain rate from the modified code</strong>Trial source locations in the borehole and observed vs synthetic strain rate for implosive and explosive sources (Lin et al., 2026).</div>
