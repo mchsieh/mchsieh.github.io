@@ -95,7 +95,7 @@
     .dir .more { font-size: 0.9rem; margin-top: 6px; }
 
     .pane { position: sticky; top: 24px; min-width: 0; }
-    .stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 0 auto; max-width: 100%; transition: width 0.35s ease; }
     .tabs { display: flex; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2); min-height: 54px; align-items: center; }
     .tabs::before { content: "View"; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
     .tabs:empty { display: none; }
@@ -459,11 +459,15 @@
     Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle("is-on", b.dataset.key === key); });
     ctl.style.display = activeVideo() ? "" : "none";
   }
+  var stage = frame.closest(".stage");
+  var pane = stage.parentElement;
   function sizeFrame() {
     var m = frame.querySelector(".media.is-on"); if (!m) return;
     var ar = parseFloat(m.dataset.ar) || 1.6;
-    var w = frame.getBoundingClientRect().width;
-    var h = Math.min(w / ar, window.innerHeight * 0.74);
+    var W = pane.getBoundingClientRect().width - 2;
+    var h = Math.min(W / ar, window.innerHeight * 0.74);
+    var w = Math.min(W, Math.round(h * ar) + 2);
+    stage.style.width = w + "px";
     frame.style.height = Math.round(h) + "px";
   }
   function activate(dir) {
