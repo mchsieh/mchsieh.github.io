@@ -55,12 +55,12 @@
       color: var(--fg);
       font-family: "IBM Plex Sans", -apple-system, "PingFang TC", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
       line-height: 1.65;
-      font-size: 17px;
+      font-size: 18px;
       -webkit-font-smoothing: antialiased;
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { color: var(--accent-dark); text-decoration: underline; }
-    main { max-width: 1320px; margin: 0 auto; padding: 56px 28px 80px; }
+    main { max-width: 1520px; margin: 0 auto; padding: 56px 32px 88px; }
 
     /* header */
     header { display: flex; gap: 28px; align-items: flex-start; padding: 22px 0 36px; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--line); }
@@ -75,7 +75,7 @@
     h2 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 48px 0 18px; }
 
     /* research: text left with rail, sticky media right */
-    .research { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr); gap: 56px; align-items: start; }
+    .research { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr); gap: 64px; align-items: start; }
     .dirs { position: relative; min-width: 0; padding-left: 30px; }
     .rail { position: absolute; left: 6px; top: 14px; bottom: 14px; width: 2px; background: var(--rail); border-radius: 1px; }
     .rail-fill { position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent); border-radius: 1px; transition: height 0.35s ease; }
@@ -86,7 +86,7 @@
     .dir:first-child { padding-top: 4px; }
     .dir:first-child::before { top: 14px; }
     .dir .num { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; }
-    .dir h3 { margin: 2px 0 10px; font-size: 1.3rem; font-weight: 600; line-height: 1.3; transition: color 0.25s; }
+    .dir h3 { margin: 2px 0 10px; font-size: 1.4rem; font-weight: 600; line-height: 1.3; transition: color 0.25s; }
     .dir.is-active h3 { color: var(--accent); }
     .dir p { margin: 0 0 8px; color: var(--soft); }
     .dir p:last-child { margin-bottom: 0; }
@@ -96,10 +96,12 @@
 
     .pane { position: sticky; top: 24px; min-width: 0; }
     .stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-    .tabs { display: flex; gap: 2px; padding: 6px 8px 0; border-bottom: 1px solid var(--line); background: var(--surface-2); min-height: 38px; }
+    .tabs { display: flex; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2); min-height: 54px; align-items: center; }
+    .tabs::before { content: "View"; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
     .tabs:empty { display: none; }
-    .tabs button { font: inherit; font-size: 0.88rem; padding: 6px 12px 8px; border: 0; background: transparent; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-    .tabs button.is-on { color: var(--accent); border-bottom-color: var(--accent); }
+    .tabs button { font: inherit; font-size: 0.92rem; font-weight: 500; padding: 7px 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--soft); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+    .tabs button:hover { border-color: var(--accent); color: var(--accent); }
+    .tabs button.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
     .frame { position: relative; aspect-ratio: 16 / 10; background: var(--frame); }
     .frame .media { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
     .frame .media.is-on { opacity: 1; pointer-events: auto; }
@@ -110,8 +112,8 @@
     .ctl button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); background: rgba(15,20,26,0.65); color: #fff; cursor: pointer; display: grid; place-items: center; padding: 0; }
     .ctl button svg { width: 16px; height: 16px; fill: currentColor; }
     .ctl .mute { opacity: 0.7; cursor: default; }
-    .captions { position: relative; min-height: 78px; }
-    .cap { position: absolute; inset: 0; padding: 12px 16px 14px; font-size: 0.92rem; color: var(--soft); line-height: 1.5; opacity: 0; transition: opacity 0.3s ease; }
+    .captions { position: relative; min-height: 88px; }
+    .cap { position: absolute; inset: 0; padding: 14px 18px 16px; font-size: 0.98rem; color: var(--soft); line-height: 1.5; opacity: 0; transition: opacity 0.3s ease; }
     .cap.is-on { opacity: 1; }
     .cap strong { display: block; color: var(--fg); font-weight: 600; }
 
