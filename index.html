@@ -206,8 +206,8 @@
         <div class="num">01</div>
         <h3>Finite-fault inversion with 3-D Green's functions</h3>
         <div class="inline-media">
-          <video controls muted loop playsinline preload="none" poster="assets/fig-ffi-slip-evolution.png" style="aspect-ratio: 964 / 1080"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
-          <div class="icap">Reference slip model (top) and the model inverted with 3-D strain Green's tensors (middle).</div>
+          <video controls muted loop playsinline preload="none" poster="assets/fig-ffi-slip-evolution.png" style="aspect-ratio: 1180 / 1080"><source src="assets/slip-evolution.mp4" type="video/mp4"></video>
+          <div class="icap">Reference slip model (top) and the model inverted with 3-D strain Green's tensors (bottom).</div>
         </div>
         <p>The strain Green's tensor approach makes a waveform inversion in 3-D structure cost little more than one in a layered model; rebuilt on a Taiwan 3-D velocity model, it recovers a synthetic reference slip at correlation 0.96.</p>
         <p class="next"><b>Next</b><span>Near-real-time slip models within hours of a large earthquake, and systematic inversions of how Taiwan's earthquakes rupture.</span></p>
@@ -319,7 +319,7 @@
       <div class="stage">
         <div class="tabs" id="tabs"></div>
         <div class="frame" id="frame">
-          <div class="media" data-key="slip" data-ar="0.8926"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video></div>
+          <div class="media" data-key="slip" data-ar="1.093"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-slip-evolution.png"><source src="assets/slip-evolution.mp4" type="video/mp4"></video></div>
           <div class="media" data-key="model" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/fig-ffi-velocity-model.png"><source src="assets/fff3d-velocity-model.mp4" type="video/mp4"></video></div>
           <div class="media" data-key="wave" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/fig-ryukyu-wavefield.png"><source src="assets/wavefield-ryukyu-m8.mp4" type="video/mp4"></video></div>
           <div class="media" data-key="velocity" data-ar="1.7778"><video muted loop playsinline preload="metadata" poster="assets/poster-velocity-models.png"><source src="assets/velocity-models-kc3d-hh3d.mp4" type="video/mp4"></video></div>
@@ -389,7 +389,7 @@
           </div>
         </div>
         <div class="captions" id="captions">
-          <div class="cap" data-key="slip"><strong>Inversion result: slip recovered at correlation 0.96</strong>Reference model (top) and the model inverted with 3-D strain Green's tensors (middle); the moment-rate functions (bottom) match in shape and duration.</div>
+          <div class="cap" data-key="slip"><strong>Inversion result: slip recovered at correlation 0.96</strong>Reference model (top) and the model inverted with 3-D strain Green's tensors (bottom), in a synthetic test on a Taiwan 3-D velocity model.</div>
           <div class="cap" data-key="model"><strong>Setting of the synthetic test</strong>Lee et al. (2025) velocity model of central-western Taiwan, a hypothetical thrust beneath the Chianan Plain, eight stations. The inversion result follows.</div>
           <div class="cap" data-key="wave"><strong>An M 8 Ryukyu scenario in two 3-D velocity models</strong>Sections through the hypocenter, then the free surface, ending with peak ground velocity. Same source in KC3D and HH3D.</div>
           <div class="cap" data-key="velocity"><strong>The two velocity models, slice by slice</strong>V<sub>S</sub> depth slices through KC3D and HH3D on one color scale, with the Ryukyu fault plane projected to the surface.</div>
@@ -467,7 +467,7 @@
     var m = frame.querySelector(".media.is-on"); if (!m) return;
     var ar = parseFloat(m.dataset.ar) || 1.6;
     var W = pane.getBoundingClientRect().width - 2;
-    var h = Math.min(W / ar, window.innerHeight * 0.74);
+    var h = Math.min(W / ar, window.innerHeight - 210);
     var w = Math.min(W, Math.round(h * ar) + 2);
     stage.style.width = w + "px";
     frame.style.height = Math.round(h) + "px";
